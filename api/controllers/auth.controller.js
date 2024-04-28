@@ -1,7 +1,8 @@
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
+import { errorHandler } from "../utils/error.js";
 
-export const signup = async (req, res) => {
+export const signup = async (req, res, next) => {
   const { username, email, password } = req.body;
   console.log(req.body);
 
@@ -15,11 +16,11 @@ export const signup = async (req, res) => {
     email === "" ||
     password === ""
   ) {
-    return res.status(400).json({ messaage: "All fields are required" });
+    next(errorHandler(400, "All Fields are required"));
   }
 
   if (user) {
-    return res.status(400).json({ error: "User already exists" });
+    next(errorHandler(400, "User already exists"));
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -30,6 +31,10 @@ export const signup = async (req, res) => {
     password: hashedPassword,
   });
 
-  await newUser.save();
-  return res.json({ message: "signup successfull" });
+  try {
+    await newUser.save();
+    return res.json({ message: "signup successfull" });
+  } catch (error) {
+    next(error);
+  }
 };
