@@ -1,15 +1,36 @@
 import { Avatar, Button, Dropdown, Navbar, TextInput } from "flowbite-react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, Navigate, useNavigate } from "react-router-dom";
 import { AiOutlineSearch } from "react-icons/ai";
 import { FaMoon, FaSun } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import { toggleTheme } from "../redux/theme/themeSlice";
+import { signoutSuccess } from "../redux/user/userSlice";
 
 const Header = () => {
   const path = useLocation().pathname;
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { currentUser } = useSelector((state) => state.user);
   const { theme } = useSelector((state) => state.theme);
+
+  const handleSignout = async () => {
+    try {
+      const res = await fetch("/api/user/signout", {
+        method: "POST",
+      });
+      const data = res.json();
+
+      if (!res.ok) {
+        console.log(data.message);
+      } else {
+        dispatch(signoutSuccess());
+        navigate("/sign-in");
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   return (
     <Navbar fluid rounded>
       <Link
@@ -53,7 +74,7 @@ const Header = () => {
               <Dropdown.Item>Profile</Dropdown.Item>
             </Link>
             <Dropdown.Divider />
-            <Dropdown.Item>Sign Out</Dropdown.Item>
+            <Dropdown.Item onClick={handleSignout}>Sign Out</Dropdown.Item>
           </Dropdown>
         ) : (
           <Link to={"/sign-in"}>
