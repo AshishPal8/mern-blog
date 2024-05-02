@@ -32,7 +32,7 @@ const Header = () => {
   };
 
   return (
-    <Navbar fluid rounded>
+    <Navbar className="border-b-2">
       <Link
         to="/"
         className="self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white"
@@ -63,7 +63,11 @@ const Header = () => {
           {theme === "light" ? <FaMoon /> : <FaSun />}
         </Button>
         {currentUser ? (
-          <Dropdown arrowIcon={false} inline label={<Avatar />}>
+          <Dropdown
+            arrowIcon={false}
+            inline
+            label={<Avatar className="rounded-full overflow-hidden" />}
+          >
             <Dropdown.Header>
               <span className="block text-sm">{currentUser.username}</span>
               <span className="block text-sm font-medium">

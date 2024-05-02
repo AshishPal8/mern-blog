@@ -12,9 +12,10 @@ import {
 } from "../redux/user/userSlice";
 import { useDispatch } from "react-redux";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
+import { Link } from "react-router-dom";
 
 const DashProfile = () => {
-  const { currentUser, error } = useSelector((state) => state.user);
+  const { currentUser, error, loading } = useSelector((state) => state.user);
   const [formData, setFormData] = useState("");
   const [updateUserError, setUpdateUserError] = useState(null);
   const [updateUserSuccess, setUpdateUserSuccess] = useState(null);
@@ -128,9 +129,25 @@ const DashProfile = () => {
           placeholder="password"
           onChange={handleChange}
         />
-        <Button type="submit" gradientDuoTone={"purpleToBlue"} outline>
-          Update
+        <Button
+          type="submit"
+          gradientDuoTone={"purpleToBlue"}
+          outline
+          disabled={loading}
+        >
+          {loading ? "Loading..." : "Update"}
         </Button>
+        {currentUser.isAdmin && (
+          <Link to={"/create-post"}>
+            <Button
+              gradientDuoTone={"purpleToPink"}
+              className="w-full"
+              type="button"
+            >
+              Create a post
+            </Button>
+          </Link>
+        )}
       </form>
       <div className="text-red-500 flex items-center justify-between mt-5">
         <span onClick={() => setShowModel(true)} className="cursor-pointer">
