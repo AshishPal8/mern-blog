@@ -1,5 +1,6 @@
-import { Table } from "flowbite-react";
+import { Button, Modal, Table } from "flowbite-react";
 import React, { useEffect, useState } from "react";
+import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
@@ -7,6 +8,9 @@ const DashPosts = () => {
   const { currentUser } = useSelector((state) => state.user);
   const [userPosts, setUserPosts] = useState([]);
   const [showMore, setShowMore] = useState(true);
+  const [showModel, setShowModel] = useState(false);
+  const [postIdToDelete, setPostIdToDelete] = useState("");
+
   console.log(userPosts);
 
   useEffect(() => {
@@ -49,6 +53,25 @@ const DashPosts = () => {
     }
   };
 
+  const handleDeletePost = async () => {
+    setShowModel(false);
+
+    const res = await fetch(
+      `/api/post/deletepost/${postIdToDelete}/${currentUser._id}`,
+      {
+        method: "DELETE",
+      }
+    );
+    const data = await res.json();
+    if (!res.ok) {
+      console.log(data.message);
+    } else {
+      setUserPosts((prev) =>
+        prev.filter((post) => post._id !== postIdToDelete)
+      );
+    }
+  };
+
   return (
     <div className="table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-200 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500">
       {currentUser.isAdmin && userPosts.length > 0 ? (
@@ -86,7 +109,13 @@ const DashPosts = () => {
                     {post.category}
                   </Table.Cell>
                   <Table.Cell>
-                    <span className="font-medium text-red-500 hover:underline cursor-pointer">
+                    <span
+                      onClick={() => {
+                        setShowModel(true);
+                        setPostIdToDelete(post._id);
+                      }}
+                      className="font-medium text-red-500 hover:underline cursor-pointer"
+                    >
                       Delete
                     </span>
                   </Table.Cell>
@@ -109,6 +138,30 @@ const DashPosts = () => {
               Show more
             </button>
           )}
+          <Modal
+            show={showModel}
+            onClose={() => setShowModel(false)}
+            popup
+            size={"md"}
+          >
+            <Modal.Header />
+            <Modal.Body>
+              <div className="text-center">
+                <HiOutlineExclamationCircle className="h-14 w-14 text-gray-400 dark:text-gray-200 mb-4 mx-auto" />
+                <h3 className="mb-5 text-lg text-gray-500 dark:text-gray-400">
+                  Are you sure you want to delete this post?
+                </h3>
+                <div className="flex items-center justify-center gap-4">
+                  <Button color={"failure"} onClick={handleDeletePost}>
+                    Yes Im sure
+                  </Button>
+                  <Button color={"gray"} onClick={() => setShowModel(false)}>
+                    Cancel
+                  </Button>
+                </div>
+              </div>
+            </Modal.Body>
+          </Modal>
         </>
       ) : (
         <p>You have no posts</p>
