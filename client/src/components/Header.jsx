@@ -1,5 +1,5 @@
 import { Avatar, Button, Dropdown, Navbar, TextInput } from "flowbite-react";
-import { Link, useLocation, Navigate, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AiOutlineSearch } from "react-icons/ai";
 import { FaMoon, FaSun } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
@@ -66,7 +66,13 @@ const Header = () => {
           <Dropdown
             arrowIcon={false}
             inline
-            label={<Avatar className="rounded-full overflow-hidden" />}
+            label={
+              <Avatar
+                alt="user"
+                img={currentUser.profilePicture}
+                className="rounded-full overflow-hidden"
+              />
+            }
           >
             <Dropdown.Header>
               <span className="block text-sm">{currentUser.username}</span>
