@@ -70,7 +70,7 @@ const Header = () => {
               <Avatar
                 alt="user"
                 img={currentUser.profilePicture}
-                className="rounded-full overflow-hidden"
+                className="rounded-full overflow-hidden object-cover"
               />
             }
           >
