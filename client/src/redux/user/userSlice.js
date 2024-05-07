@@ -56,7 +56,6 @@ const userSlice = createSlice({
     },
   },
 });
-console.log(userSlice);
 
 export const {
   signInStart,
