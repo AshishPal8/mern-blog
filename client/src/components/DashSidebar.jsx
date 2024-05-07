@@ -6,6 +6,7 @@ import {
   HiOutlineUserGroup,
   HiUser,
 } from "react-icons/hi";
+import { FaRegCommentDots } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
 import { signoutSuccess } from "../redux/user/userSlice";
 import { useDispatch } from "react-redux";
@@ -78,6 +79,18 @@ const DashSidebar = () => {
                 as="div"
               >
                 Users
+              </Sidebar.Item>
+            </Link>
+          )}
+          {currentUser.isAdmin && (
+            <Link to={"/dashboard?tab=comments"}>
+              <Sidebar.Item
+                active={tab === "comments"}
+                icon={FaRegCommentDots}
+                labelColor="dark"
+                as="div"
+              >
+                Comments
               </Sidebar.Item>
             </Link>
           )}
