@@ -46,14 +46,11 @@ const SignIp = () => {
     }
   };
   return (
-    <div className="min-h-screen mt-20">
+    <div className="min-h-screen pt-20  bg-[#F4F7FE] dark:bg-[#1E2142]">
       <div className="flex p-3 max-w-3xl mx-auto flex-col md:flex-row md:items-center">
         <div className="flex-1">
           <Link href="/" className="font-bold dark:text-white text-4xl">
-            <span className="px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg text-white">
-              Ashish
-            </span>
-            Blog
+            Ashish Blog
           </Link>
           <p className="text-sm mt-5">
             Dont let your passions stay silent. Join a thriving community of
@@ -80,7 +77,7 @@ const SignIp = () => {
                 onChange={handleChange}
               />
             </div>
-            <Button gradientDuoTone={"purpleToPink"} type="submit">
+            <Button gradientDuoTone={"pinkToOrange"} type="submit">
               {loading ? (
                 <>
                   <Spinner size={"sm"} />

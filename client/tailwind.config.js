@@ -10,7 +10,11 @@ export default {
     flowbite.content(),
   ],
   theme: {
-    extend: {},
+    extend: {
+      Colors: {
+        background: "#1C2137",
+      },
+    },
   },
   plugins: [flowbite.plugin(), require("tailwind-scrollbar")],
 };
