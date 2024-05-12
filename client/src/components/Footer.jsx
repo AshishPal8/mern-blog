@@ -10,7 +10,7 @@ import {
 
 const FooterPage = () => {
   return (
-    <Footer className="border border-t-8 border-teal-500 p-8">
+    <Footer className="border dark:bg-[#121430] border-t-8 border-teal-500 p-8">
       <div className="w-full max-w-7xl mx-auto">
         <div className="grid justify-between items-center gap-4 sm:gap-0 sm:flex md:grid-cols-1">
           <div>
@@ -18,10 +18,7 @@ const FooterPage = () => {
               to="/"
               className="self-center whitespace-nowrap text-lg sm:text-xl font-semibold dark:text-white"
             >
-              <span className="px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg text-white">
-                Ashish
-              </span>
-              Blog
+              Ashish Blog
             </Link>
           </div>
           <div className="flex flex-wrap gap-5">
