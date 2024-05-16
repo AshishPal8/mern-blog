@@ -106,6 +106,18 @@ const DashSidebar = () => {
               </Sidebar.Item>
             </Link>
           )}
+          {currentUser.isAdmin && (
+            <Link to={"/dashboard?tab=quiz"}>
+              <Sidebar.Item
+                active={tab === "comments"}
+                icon={FaRegCommentDots}
+                labelColor="dark"
+                as="div"
+              >
+                Quiz
+              </Sidebar.Item>
+            </Link>
+          )}
           <Sidebar.Item
             icon={HiArrowSmRight}
             className="cursor-pointer"

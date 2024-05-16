@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Alert, Button, Label, Spinner, TextInput } from "flowbite-react";
+import { Spinner, Button, Alert, Label, TextInput } from "flowbite-react";
 import { Link, useNavigate } from "react-router-dom";
 import OAuth from "../components/OAuth";
 
@@ -43,19 +43,23 @@ const SignUp = () => {
       setLoading(false);
     }
   };
+
   return (
     <div className="min-h-screen pt-20 bg-[#F4F7FE] dark:bg-[#1E2142]">
-      <div className="flex p-3 max-w-3xl mx-auto flex-col md:flex-row md:items-center">
-        <div className="flex-1">
-          <Link href="/" className="font-bold dark:text-white text-4xl">
+      <div className="flex p-10 max-w-md bg-white dark:bg-[#121430] mx-auto flex-col  md:items-center rounded-xl shadow-lg">
+        <div className="mb-5 w-full">
+          <h1 className="text-[#004C99] text-center font-bold text-3xl">
             Ashish Blog
-          </Link>
-          <p className="text-sm mt-5">
-            Dont let your passions stay silent. Join a thriving community of
-            bloggers who inspire and empower each other.
+          </h1>
+
+          <h2 className="text-start font-semibold text-2xl mt-5">
+            Start Your Adventure Here!🚀
+          </h2>
+          <p className="text-gray-500">
+            Join for adventures, stories, and more!
           </p>
         </div>
-        <div className="flex-1 mx-8">
+        <div className="w-full">
           <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
             <div>
               <Label value="Username" />
@@ -84,7 +88,7 @@ const SignUp = () => {
                 onChange={handleChange}
               />
             </div>
-            <Button gradientDuoTone={"purpleToPink"} type="submit">
+            <Button className="bg-[#004C99] hover:bg-[#4f5faa] " type="submit">
               {loading ? (
                 <>
                   <Spinner size={"sm"} />
@@ -96,8 +100,8 @@ const SignUp = () => {
             </Button>
             <OAuth />
           </form>
-          <div className="text-sm flex gap-2 mt-3">
-            <span>Have an account</span>
+          <div className="flex items-center justify-center gap-2 text-[1rem] font-normal text-gray-500 mt-3">
+            <span>Already have an account?</span>
             <Link to={"/sign-in"} className="text-blue-600">
               Signin
             </Link>
