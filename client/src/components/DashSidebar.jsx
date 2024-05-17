@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Sidebar } from "flowbite-react";
 import {
   HiArrowSmRight,
@@ -6,7 +6,7 @@ import {
   HiOutlineUserGroup,
   HiUser,
 } from "react-icons/hi";
-import { FaRegCommentDots } from "react-icons/fa";
+import { FaRegCommentDots, FaRegQuestionCircle } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
 import { signoutSuccess } from "../redux/user/userSlice";
 import { useDispatch } from "react-redux";
@@ -109,8 +109,8 @@ const DashSidebar = () => {
           {currentUser.isAdmin && (
             <Link to={"/dashboard?tab=quiz"}>
               <Sidebar.Item
-                active={tab === "comments"}
-                icon={FaRegCommentDots}
+                active={tab === "quiz"}
+                icon={FaRegQuestionCircle}
                 labelColor="dark"
                 as="div"
               >

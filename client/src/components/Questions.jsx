@@ -50,14 +50,11 @@ const Questions = () => {
         body: JSON.stringify(formDataWithAllOptions),
       });
 
-      console.log(res);
-
       if (!res.ok) {
         throw new Error("Failed to create questions");
       }
 
       const data = await res.json();
-      // Handle response data if needed
       console.log("Questions created successfully:", data);
 
       setFormData({
@@ -133,7 +130,7 @@ const Questions = () => {
                 ))}
               </ol>
               <p className="text-green-600 text-xl font-semibold">
-                Correct option index: {question.correctOption}
+                Correct option: {question.correctOption}
               </p>
               <span
                 onClick={() => handleDeleteQuestion(question._id)}

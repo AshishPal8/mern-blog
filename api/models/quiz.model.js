@@ -1,25 +1,26 @@
 import mongoose from "mongoose";
 
-const questionSchema = new mongoose.Schema(
-  {
-    questionText: {
-      type: String,
-      required: true,
-    },
-    options: [
-      {
-        type: String,
-        required: true,
-      },
-    ],
-    correctOption: {
-      type: String,
-      required: true,
-    },
+const quizSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
   },
-  { timestamps: true }
-);
+  description: {
+    type: String,
+    required: true,
+  },
+  banner: {
+    type: String,
+    default:
+      "https://ruloans.com/blog/wp-content/uploads/2019/11/Main-Banner-4-11-19.jpg",
+  },
+  questions: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Question",
+      required: true,
+    },
+  ],
+});
 
-const Question = mongoose.model("Question", questionSchema);
-
-export default Question;
+const Quiz = mongoose.model("Quiz", quizSchema);

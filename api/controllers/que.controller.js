@@ -1,4 +1,4 @@
-import Question from "../models/quiz.model.js";
+import Question from "../models/que.model.js";
 import { errorHandler } from "../utils/error.js";
 
 export const createQuestions = async (req, res, next) => {

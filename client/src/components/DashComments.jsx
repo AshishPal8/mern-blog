@@ -9,7 +9,6 @@ const DashComments = () => {
   const [showMore, setShowMore] = useState(true);
   const [showModel, setShowModel] = useState(false);
   const [commentIdToDelete, setCommentIdToDelete] = useState("");
-  console.log(comments);
 
   useEffect(() => {
     const fetchComments = async () => {
