@@ -6,6 +6,8 @@ import userRoutes from "./routes/user.route.js";
 import postRoutes from "./routes/post.route.js";
 import commentRoutes from "./routes/comment.route.js";
 import queRoutes from "./routes/que.route.js";
+import quizRoutes from "./routes/quiz.route.js";
+import answerRouter from "./routes/userAnswer.route.js";
 import cookieParser from "cookie-parser";
 
 dotenv.config();
@@ -31,6 +33,8 @@ app.use("/api/auth", authRoutes);
 app.use("/api/post", postRoutes);
 app.use("/api/comment", commentRoutes);
 app.use("/api/quiz", queRoutes);
+app.use("/api/quizzes", quizRoutes);
+app.use("/api/user-answers", answerRouter);
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;

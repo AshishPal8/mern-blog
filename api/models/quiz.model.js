@@ -21,6 +21,12 @@ const quizSchema = new mongoose.Schema({
       required: true,
     },
   ],
+  active: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const Quiz = mongoose.model("Quiz", quizSchema);
+
+export default Quiz;

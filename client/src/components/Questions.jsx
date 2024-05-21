@@ -98,8 +98,6 @@ const Questions = () => {
         throw new Error("Failed to delete question");
       }
 
-      console.log("Question deleted successfully");
-
       fetchQuestions();
     } catch (error) {
       console.error("Error deleting question:", error);

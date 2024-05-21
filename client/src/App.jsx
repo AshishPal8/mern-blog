@@ -14,6 +14,9 @@ import UpdatePost from "./pages/UpdatePost";
 import PostPage from "./pages/PostPage";
 import ScrollToTop from "./components/ScrollToTop";
 import Search from "./pages/Search";
+import PlayQuiz from "./pages/PlayQuiz";
+import LeaderBoard from "./pages/LeaderBoard";
+import QuizResult from "./pages/QuizResult";
 
 function App() {
   return (
@@ -28,7 +31,10 @@ function App() {
         <Route path="/search" element={<Search />} />
         <Route element={<PrivateRoute />}>
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/play-quiz" element={<PlayQuiz />} />
+          <Route path="/quiz-result" element={<QuizResult />} />
         </Route>
+        <Route path="/leaderboard" element={<LeaderBoard />} />
         <Route element={<OnlyAdminPrivateRoute />}>
           <Route path="/create-post" element={<CreatePost />} />
           <Route path="/update-post/:postId" element={<UpdatePost />} />
