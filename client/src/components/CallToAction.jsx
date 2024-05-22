@@ -11,7 +11,9 @@ const CallToAction = ({
   return (
     <div
       className="p-6 h-60 flex items-center justify-around text-white text-center rounded-lg shadow-lg bg-cover bg-center"
-      style={{ backgroundImage: `url(${bgImageUrl})` }}
+      style={{
+        backgroundImage: `url(${bgImageUrl})`,
+      }}
     >
       <div>
         <h2 className="text-2xl font-bold mb-4">{title}</h2>

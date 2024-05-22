@@ -10,6 +10,7 @@ import {
   Button,
   FileInput,
   Modal,
+  Table,
   TextInput,
   Textarea,
 } from "flowbite-react";
@@ -30,6 +31,7 @@ const Quiz = () => {
   const [file, setFile] = useState(null);
   const [imageUploadProgress, setImageUploadProgress] = useState(null);
   const [imageUploadError, setImageUploadError] = useState(null);
+  const [quizStatistics, setQuizStatistics] = useState({});
 
   const handleCheckboxChange = (questionId) => {
     setSelectedQuestions((prevSelected) =>
@@ -41,7 +43,7 @@ const Quiz = () => {
 
   useEffect(() => {
     fetchQuestions();
-    fetchQuizzes();
+    fetchQuizzesAndStatistics();
   }, []);
 
   const fetchQuestions = async () => {
@@ -130,7 +132,7 @@ const Quiz = () => {
     }
   };
 
-  const fetchQuizzes = async () => {
+  const fetchQuizzesAndStatistics = async () => {
     try {
       const res = await fetch("/api/quizzes/getquiz");
       if (!res.ok) {
@@ -139,8 +141,35 @@ const Quiz = () => {
 
       const data = await res.json();
       setQuizzes(data.quizzes);
+
+      // Fetch statistics for each quiz
+      const statsPromises = data.quizzes.map((quiz) =>
+        fetchQuizStatistics(quiz._id)
+      );
+      const stats = await Promise.all(statsPromises);
+
+      const statsMap = data.quizzes.reduce((acc, quiz, idx) => {
+        acc[quiz._id] = stats[idx];
+        return acc;
+      }, {});
+      setQuizStatistics(statsMap);
     } catch (error) {
       console.log("Error fetching data", error);
+    }
+  };
+
+  const fetchQuizStatistics = async (quizId) => {
+    try {
+      const res = await fetch(`/api/quizzes/statistics/${quizId}`);
+      if (!res.ok) {
+        throw new Error("Failed to fetch quiz statistics");
+      }
+
+      const data = await res.json();
+      return data;
+    } catch (error) {
+      console.log("Error fetching quiz statistics", error);
+      return null;
     }
   };
 
@@ -195,7 +224,10 @@ const Quiz = () => {
         ) : (
           <Accordion>
             {quizzes.map((quiz) => (
-              <Accordion.Panel key={quiz._id}>
+              <Accordion.Panel
+                key={quiz._id}
+                onClick={() => fetchQuizStatistics(quiz._id)}
+              >
                 <Accordion.Title>{quiz.name}</Accordion.Title>
                 <Accordion.Content>
                   <ol>
@@ -219,6 +251,35 @@ const Quiz = () => {
                       {quiz.active ? "Deactivate" : "Activate"}
                     </span>
                   </div>
+
+                  <Table hoverable className="mt-4">
+                    <Table.Head>
+                      <Table.HeadCell>Username</Table.HeadCell>
+                      <Table.HeadCell>Attempt Que</Table.HeadCell>
+                      <Table.HeadCell>Correct Que</Table.HeadCell>
+                      <Table.HeadCell>Incorrect Que</Table.HeadCell>
+                      <Table.HeadCell>Score</Table.HeadCell>
+                    </Table.Head>
+                    <Table.Body>
+                      {quizStatistics[quiz._id] ? (
+                        quizStatistics[quiz._id].userScores.map((userScore) => (
+                          <Table.Row key={userScore._id}>
+                            <Table.Cell>{userScore.username}</Table.Cell>
+                            <Table.Cell>{userScore.totalAttempts}</Table.Cell>
+                            <Table.Cell>{userScore.correctAnswers}</Table.Cell>
+                            <Table.Cell>
+                              {userScore.incorrectAnswers}
+                            </Table.Cell>
+                            <Table.Cell>{userScore.score}</Table.Cell>
+                          </Table.Row>
+                        ))
+                      ) : (
+                        <Table.Row>
+                          <Table.Cell colSpan="5">Loading...</Table.Cell>
+                        </Table.Row>
+                      )}
+                    </Table.Body>
+                  </Table>
                 </Accordion.Content>
               </Accordion.Panel>
             ))}

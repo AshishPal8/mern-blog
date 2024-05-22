@@ -36,7 +36,9 @@ export const calculateScore = async (req, res, next) => {
       return total + (answer.isCorrect ? 10 : 0);
     }, 0);
 
-    res.status(200).json({ score });
+    const totalAttempts = userAnswers.length;
+
+    res.status(200).json({ score, totalAttempts });
   } catch (error) {
     next(error);
   }

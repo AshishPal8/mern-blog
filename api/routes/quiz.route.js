@@ -6,6 +6,7 @@ import {
   toggleActiveQuiz,
   getQuiz,
   getActiveQuizzes,
+  getQuizStatistics,
 } from "../controllers/quiz.controller.js";
 
 const router = express.Router();
@@ -15,5 +16,6 @@ router.get("/getquiz", verifyToken, getQuiz);
 router.delete("/delete-quiz/:quizId", verifyToken, deleteQuiz);
 router.put("/activate-quiz/:quizId", verifyToken, toggleActiveQuiz);
 router.get("/active-quizzes", getActiveQuizzes);
+router.get("/statistics/:quizId", getQuizStatistics);
 
 export default router;

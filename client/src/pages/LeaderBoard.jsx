@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 
 const LeaderBoard = () => {
   const [quizzes, setQuizzes] = useState([]);
-  console.log(quizzes);
 
   useEffect(() => {
     fetchActiveQuizzes();

@@ -5,7 +5,6 @@ import CallToAction from "../components/CallToAction";
 
 const Home = () => {
   const [recentPosts, setRecentPosts] = useState(null);
-  console.log(recentPosts);
 
   const { postSlug } = useParams();
   useEffect(() => {
@@ -31,7 +30,7 @@ const Home = () => {
           description="Take our fun quiz and see how much you know. Start now!"
           buttonText="Play Now"
           buttonUrl="/leaderboard"
-          bgImageUrl="https://img.freepik.com/free-vector/half-tone-blue-abstract-background-with-text-space_1017-41428.jpg"
+          bgImageUrl="https://t3.ftcdn.net/jpg/03/52/86/92/360_F_352869228_uliENLm8mBNh0wIPoL8oBGbFRARZoEgZ.jpg"
         />
       </div>
       <div className="max-w-6xl mx-auto p-3">

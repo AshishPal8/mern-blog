@@ -15,21 +15,12 @@ export const submitUserAnswers = createAsyncThunk(
   }
 );
 
-export const fetchUserScore = createAsyncThunk(
-  "userAnswers/fetchUserScore",
-  async ({ userId, quizId }) => {
-    const response = await fetch(`/api/user-answers/score/${userId}/${quizId}`);
-    const data = await response.json();
-    console.log(data.score);
-    return data;
-  }
-);
-
 const userAnswersSlice = createSlice({
   name: "userAnswers",
   initialState: {
     answers: {},
     score: null,
+    totalAttempts: null,
     status: "idle",
     error: null,
   },
@@ -54,9 +45,6 @@ const userAnswersSlice = createSlice({
       .addCase(submitUserAnswers.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
-      })
-      .addCase(fetchUserScore.fulfilled, (state, action) => {
-        state.score = action.payload.score;
       });
   },
 });

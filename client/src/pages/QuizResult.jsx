@@ -1,20 +1,52 @@
 import { Button } from "flowbite-react";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
-import { fetchUserScore } from "../redux/quiz/userAnswerSlice";
 
 const QuizResult = () => {
-  const dispatch = useDispatch();
   const { quizId } = useParams();
-  const { score } = useSelector((state) => state.userAnswers);
+  const quizzes = useSelector((state) => state.quizzes.items);
+  const [score, setScore] = useState(null);
+  const [totalAttempts, setTotalAttempts] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const { currentUser } = useSelector((state) => state.user);
 
   useEffect(() => {
-    if (currentUser && quizId) {
-      dispatch(fetchUserScore({ userId: currentUser.id, quizId }));
-    }
-  }, [dispatch, currentUser, quizId]);
+    const fetchScore = async () => {
+      if (currentUser && quizzes) {
+        try {
+          setLoading(true);
+          const response = await fetch(
+            `/api/user-answers/score/${currentUser._id}/${quizzes[0]._id}`
+          );
+          if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || "Something went wrong");
+          }
+          const data = await response.json();
+          setScore(data.score);
+          setTotalAttempts(data.totalAttempts);
+          setLoading(false);
+        } catch (error) {
+          setError(error.message);
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchScore();
+  }, [currentUser]);
+
+  const totalQuestion = quizzes[0].questions.length;
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
     <div className="bg-[#F4F7FE] dark:bg-[#1E2142] min-h-[60vh]">
@@ -26,19 +58,15 @@ const QuizResult = () => {
           </div>
           <div className="flex justify-between mb-4">
             <span>Total Questions: </span>
-            <span>05</span>
+            <span>{totalQuestion}</span>
           </div>
           <div className="flex justify-between mb-4">
-            <span>Total Attempts: </span>
-            <span>03</span>
+            <span>Attempt question: </span>
+            <span>{totalAttempts}</span>
           </div>
           <div className="flex justify-between mb-4">
             <span>Total Earned points: </span>
-            <span>{score}</span>
-          </div>
-          <div className="flex justify-between mb-4">
-            <span>Quiz result: </span>
-            <span>{score >= 30 ? "Passed" : "Failed"}</span>
+            <span>{score !== null ? score : "Loading..."}</span>
           </div>
         </div>
 
